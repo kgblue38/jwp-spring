@@ -2,12 +2,12 @@ $(".answerWrite input[type=submit]").click(addAnswer);
 
 function addAnswer(e) {
   e.preventDefault();
-
   var queryString = $("form[name=answer]").serialize();
-
+  var questionId = $(e.target).data("questionId");
+  console.log(questionId);
   $.ajax({
     type : 'post',
-    url : '/api/qna/addAnswer',
+    url : '/api/questions/' + questionId + '/answers',
     data : queryString,
     dataType : 'json',
     error: onError,
@@ -20,7 +20,7 @@ function onSuccess(json, status){
   if (result.status) {
 	  var answer = json.answer;
 	  var answerTemplate = $("#answerTemplate").html();
-	  var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.answerId);
+	  var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.questionId);
 	  $(".qna-comment-slipp-articles").prepend(template);	  
   } else {
 	  alert(result.message);
@@ -35,14 +35,15 @@ $(".qna-comment").on("click", ".form-delete", deleteAnswer);
 
 function deleteAnswer(e) {
   e.preventDefault();
-
+  var questionId = $(e.target).data("questionId");
+  var answerId = $(e.target).data("answerId");
   var deleteBtn = $(this);
   var queryString = deleteBtn.closest("form").serialize();
   console.log("qs : " + queryString);
 
   $.ajax({
-    type: 'post',
-    url: "/api/qna/deleteAnswer",
+    type: 'delete',
+    url: "/api/questions/" + questionId + "/answers/" + answerId,
     data: queryString,
     dataType: 'json',
     error: function (xhr, status) {

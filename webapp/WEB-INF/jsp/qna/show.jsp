@@ -39,10 +39,11 @@
 					<div class="article-util">
 						<ul class="article-util-list">
 							<li>
-								<a class="link-modify-article" href="/qna/updateForm?questionId=${question.questionId}">수정</a>
+								<a class="link-modify-article" href="/questions/${question.questionId}/edit">수정</a>
 							</li>
 							<li>
-								<form class="form-delete" action="/qna/delete" method="POST">
+								<form class="form-delete" action="/questions/${question.questionId}" method="POST">
+									<input type="hidden" name="_method" value = "DELETE" />
 									<input type="hidden" name="questionId" value="${question.questionId}" />
 									<button class="link-delete-article" type="submit">삭제</button>
 								</form>
@@ -59,6 +60,7 @@
 						<p class="qna-comment-count"><strong>${question.countOfComment}</strong>개의 의견</p>
 						<div class="qna-comment-slipp-articles">
 							<c:forEach items="${answers}" var="each">
+							<!-- start -->
 							<article class="article">
 								<div class="article-header">
 									<div class="article-header-thumb">
@@ -75,12 +77,15 @@
 								<div class="article-util">
 									<ul class="article-util-list">
 										<li>
-											<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=${each.answerId}">수정</a>
+											<form class="link-modify-article" action="/api/questions/${question.questionId}/answers/${each.answerId}" method="POST">
+												<input type="hidden" name="_method" value = "PUT" />
+												<button type="submit" class="link-delete-article">수정</button>
+											</form>
 										</li>
 										<li>
-											<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
-												<input type="hidden" name="answerId" value="${each.answerId}" />
-												<button type="submit" class="link-delete-article">삭제</button>
+											<form class="form-delete" action="/api/questions/${question.questionId}/answers/${each.answerId}" method="POST">
+												<input type="hidden" name="_method" value = "DELETE" />
+												<button type="submit" class="link-delete-article" data-question-id="${question.questionId}" data-answer-id="${each.answerId}">삭제</button>
 											</form>
 										</li>
 									</ul>
@@ -88,12 +93,11 @@
 							</article>
                             </c:forEach>
 							<div class="answerWrite">
-                            <form name="answer" method="post">
-								<input type="hidden" name="questionId" value="${question.questionId}">
+                            <form name="answer" action="/api/questions/${question.questionId}/answers" method="POST">
 								<div class="form-group col-lg-12">
 									<textarea name="contents" id="contents" class="form-control" placeholder=""></textarea>
 								</div>
-								<input class="btn btn-success pull-right" type="submit" value="답변하기" />
+								<input class="btn btn-success pull-right" type="submit" value="답변하기" data-question-id="${question.questionId}"/>
 								<div class="clearfix" />
 							</form>
 							</div>
@@ -122,12 +126,15 @@
 		<div class="article-util">
 		<ul class="article-util-list">
 			<li>
-				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
+				<form class="link-modify-article" action="/api/questions/{4}/answers/{3}" method="POST">
+					<input type="hidden" name="_method" value = "PUT" />
+					<button type="submit" class="link-delete-article">수정</button>
+				</form>
 			</li>
 			<li>
-				<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
-					<input type="hidden" name="answerId" value="{4}" />
-					<button type="submit" class="link-delete-article">삭제</button>
+				<form class="form-delete" action="/api/questions/{4}/answers/{3}" method="POST">
+					<input type="hidden" name="_method" value = "DELETE" />
+					<button type="submit" class="link-delete-article" data-question-id="{4}" data-answer-id="{3}">삭제</button>
 				</form>
 			</li>
 		</ul>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <nav class="navbar navbar-fixed-top header">
   <div class="col-md-12">
     <div class="navbar-header">
@@ -50,11 +51,11 @@
         <c:choose>
         <c:when test="${not empty sessionScope.user}">
         <li><a href="/users/logout" role="button">로그아웃</a></li>
-        <li><a href="/users/updateForm?userId=${sessionScope.user.userId}" role="button">개인정보수정</a></li>
+        <li><a href="/users/${sessionScope.user.userId}/edit" role="button">개인정보수정</a></li>
         </c:when>
         <c:otherwise>
         <li><a href="/users/loginForm" role="button">로그인</a></li>
-        <li><a href="/users/form" role="button">회원가입</a></li>
+        <li><a href="/users/new" role="button">회원가입</a></li>
         <!--
         <li><a href="#loginModal" role="button" data-toggle="modal">로그인</a></li>
         <li><a href="#registerModal" role="button" data-toggle="modal">회원가입</a></li>

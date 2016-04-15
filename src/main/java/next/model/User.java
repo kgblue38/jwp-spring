@@ -5,14 +5,17 @@ public class User {
 	private String password;
 	private String name;
 	private String email;
-
+	
+	public User() {
+	}
+	
 	public User(String userId, String password, String name, String email) {
 		this.userId = userId;
 		this.password = password;
 		this.name = name;
 		this.email = email;
 	}
-
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -29,7 +32,23 @@ public class User {
 		return email;
 	}
 	
-    public void update(User updateUser) {
+    public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void update(User updateUser) {
         this.password = updateUser.password;
         this.name = updateUser.name;
         this.email = updateUser.email;
@@ -51,6 +70,10 @@ public class User {
 		return userId.equals(newUserId);
 	}
 
+	public boolean isGuestUser() {
+		return false;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,4 +115,5 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", email=" + email + "]";
 	}
+
 }
